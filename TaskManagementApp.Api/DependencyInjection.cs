@@ -5,7 +5,7 @@ namespace TaskManagementApp.Api;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddDecisionEngineApiServices(this IServiceCollection services, IConfiguration configuration, ILoggerFactory loggerFactory, IWebHostEnvironment environment)
+    public static IServiceCollection AddTaskManagementAppServices(this IServiceCollection services, IConfiguration configuration)
     {
         services
             .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly))
