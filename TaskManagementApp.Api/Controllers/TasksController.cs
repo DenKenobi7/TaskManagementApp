@@ -3,6 +3,7 @@ using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagementApp.Application.Handlers.Commands.AddTask;
+using TaskManagementApp.Application.Handlers.Commands.SendUpdateTaskStatusCommand;
 using TaskManagementApp.Application.Handlers.Commands.UpdateTaskStatus;
 using TaskManagementApp.Application.Handlers.Queries.GetAllTasks;
 using TaskStatus = TaskManagementApp.Domain.TaskStatus;
@@ -11,7 +12,7 @@ namespace TaskManagementApp.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class TasksController(IMediator mediator, IValidator<AddTaskCommand> validator, ILogger<TasksController> logger) : ControllerBase
+public class TasksController(IMediator mediator, ILogger<TasksController> logger) : ControllerBase
 {
     [HttpPost]
     public async Task<IActionResult> AddTask([FromBody] AddTaskCommand newTask, CancellationToken cancellationToken)
@@ -41,10 +42,8 @@ public class TasksController(IMediator mediator, IValidator<AddTaskCommand> vali
     [HttpPut("{id}/status")]
     public async Task<IActionResult> UpdateTaskStatus(int id, [FromBody] TaskStatus newStatus, CancellationToken cancellationToken)
     {
-        var updateResult = await mediator.Send(new UpdateTaskStatusCommand(id, newStatus), cancellationToken);
-        return updateResult.IsSuccessfull 
-            ? Ok() 
-            : BadRequest(updateResult.ErrorMessage);
+        await mediator.Send(new SendUpdateTaskStatusCommand(id, newStatus), cancellationToken);
+        return Ok();
     }
 
     #region PrivateMethods

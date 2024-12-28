@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Options;
 using TaskManagementApp.Api.Behaviors;
 using TaskManagementApp.Api.Extensions;
+using TaskManagementApp.Application.Extensions;
+using TaskManagementApp.Infrastructure.Extensions;
 using TaskManagementApp.ServiceBus.Options;
 
 namespace TaskManagementApp.Api;
@@ -12,8 +14,9 @@ public static class DependencyInjection
     {
         services
             .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly))
-            .AddAutoMapper(typeof(Program).Assembly)
             .AddValidation()
+            .AddApplication()
+            .AddInfrastructure()
             .AddMassTransitConfiguration(configuration)
             //.AddSecurity(configuration)
             //.AddApiConfiguration(configuration)

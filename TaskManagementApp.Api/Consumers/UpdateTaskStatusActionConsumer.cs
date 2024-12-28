@@ -1,13 +1,12 @@
 ﻿using MassTransit;
-using MassTransit.Mediator;
+using MediatR;
 using TaskManagementApp.Application.Actions;
 using TaskManagementApp.Application.Handlers.Commands.UpdateTaskStatus;
 
 namespace TaskManagementApp.Api.Consumers;
 
 public class UpdateTaskStatusActionConsumer(IMediator mediator, 
-    ILogger<UpdateTaskStatusActionConsumer> logger)
-: IConsumer<UpdateTestStatusAction>
+    ILogger<UpdateTaskStatusActionConsumer> logger) : IConsumer<UpdateTestStatusAction>
 {
     public async Task Consume(ConsumeContext<UpdateTestStatusAction> context)
     {
