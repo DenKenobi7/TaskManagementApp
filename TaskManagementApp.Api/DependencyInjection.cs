@@ -1,5 +1,8 @@
-﻿using Microsoft.Extensions.Options;
+﻿using MediatR;
+using Microsoft.Extensions.Options;
+using TaskManagementApp.Api.Behaviors;
 using TaskManagementApp.Api.Extensions;
+using TaskManagementApp.ServiceBus.Options;
 
 namespace TaskManagementApp.Api;
 
@@ -11,13 +14,14 @@ public static class DependencyInjection
             .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly))
             .AddAutoMapper(typeof(Program).Assembly)
             .AddValidation()
+            .AddMassTransitConfiguration(configuration)
             //.AddSecurity(configuration)
             //.AddApiConfiguration(configuration)
             //.AddMongoDbServices(configuration, loggerFactory)
             //.AddInfrastructure(configuration)
             //.AddApplication()
             //
-            //.AddMassTransitConfiguration(configuration, environment)
+
             ;
 
         services.Configure<RabbitMqOptions>(configuration.GetSection(RabbitMqOptions.SectionName));

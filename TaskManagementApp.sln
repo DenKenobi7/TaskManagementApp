@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagementApp.Domain", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagementApp.Infrastructure", "TaskManagementApp.Infrastructure\TaskManagementApp.Infrastructure.csproj", "{C6FA444D-50FF-451C-8458-1D3079C3475F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagementApp.ServiceBus", "TaskManagementApp.ServiceBus\TaskManagementApp.ServiceBus.csproj", "{3A1058BD-9D06-40BA-99AC-91CD67477431}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{C6FA444D-50FF-451C-8458-1D3079C3475F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6FA444D-50FF-451C-8458-1D3079C3475F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6FA444D-50FF-451C-8458-1D3079C3475F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A1058BD-9D06-40BA-99AC-91CD67477431}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A1058BD-9D06-40BA-99AC-91CD67477431}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A1058BD-9D06-40BA-99AC-91CD67477431}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A1058BD-9D06-40BA-99AC-91CD67477431}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
