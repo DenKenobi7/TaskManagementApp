@@ -4,8 +4,7 @@ namespace TaskManagementApp.Application.Interfaces;
 
 public interface ITaskRepository
 {
-    Task<int> AddAsync(TaskEntity task);
-    Task UpdateAsync(TaskEntity task);
-    Task<TaskEntity?> GetByIdAsync(int id);
-    Task<IEnumerable<TaskEntity>> GetAllAsync();
+    Task AddAsync(TaskEntity task, CancellationToken cancellationToken);
+    Task UpdateAsync(TaskEntity task, CancellationToken cancellationToken);
+    Task<IEnumerable<TaskEntity>> GetAllAsync(CancellationToken cancellationToken);
 }

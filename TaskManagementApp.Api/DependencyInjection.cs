@@ -12,16 +12,8 @@ public static class DependencyInjection
         services
             .AddValidation()
             .AddApplication()
-            .AddInfrastructure()
-            .AddMassTransitConfiguration(configuration)
-            //.AddSecurity(configuration)
-            //.AddApiConfiguration(configuration)
-            //.AddMongoDbServices(configuration, loggerFactory)
-            //.AddInfrastructure(configuration)
-            //.AddApplication()
-            //
-
-            ;
+            .AddInfrastructure(configuration)
+            .AddMassTransitConfiguration(configuration);
 
         services.Configure<RabbitMqOptions>(configuration.GetSection(RabbitMqOptions.SectionName));
 
