@@ -20,4 +20,8 @@
     <ProjectReference Include="..\TaskManagementApp.ServiceBus\TaskManagementApp.ServiceBus.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Validators\" />
+  </ItemGroup>
+
 </Project>

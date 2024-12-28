@@ -1,12 +1,12 @@
 ﻿using FluentValidation;
-using TaskManagementApp.Application.Handlers.Commands.AddTask;
 
-namespace TaskManagementApp.Api.Validators;
+namespace TaskManagementApp.Application.Handlers.Commands.AddTask;
 
 public class AddTaskCommandValidator : AbstractValidator<AddTaskCommand>
 {
     public AddTaskCommandValidator()
     {
+        ClassLevelCascadeMode = CascadeMode.Continue;
         RuleFor(x => x.Name)
             .NotEmpty()
             .WithMessage("Name cannot be empty");

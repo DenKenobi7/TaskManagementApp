@@ -1,7 +1,4 @@
-﻿using MediatR;
-using Microsoft.Extensions.Options;
-using TaskManagementApp.Api.Behaviors;
-using TaskManagementApp.Api.Extensions;
+﻿using TaskManagementApp.Api.Extensions;
 using TaskManagementApp.Application.Extensions;
 using TaskManagementApp.Infrastructure.Extensions;
 using TaskManagementApp.ServiceBus.Options;
@@ -13,7 +10,6 @@ public static class DependencyInjection
     public static IServiceCollection AddTaskManagementAppServices(this IServiceCollection services, IConfiguration configuration)
     {
         services
-            .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly))
             .AddValidation()
             .AddApplication()
             .AddInfrastructure()

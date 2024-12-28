@@ -1,11 +1,6 @@
-﻿using FluentValidation;
-using MassTransit;
-using MediatR;
-using TaskManagementApp.Api.Behaviors;
+﻿using MassTransit;
 using TaskManagementApp.Api.Consumers;
-using TaskManagementApp.Api.Validators;
 using TaskManagementApp.Application.Constants;
-using TaskManagementApp.Application.Handlers.Commands.AddTask;
 using TaskManagementApp.Application.Interfaces;
 using TaskManagementApp.ServiceBus;
 using TaskManagementApp.ServiceBus.Options;
@@ -14,16 +9,6 @@ namespace TaskManagementApp.Api.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddValidation(this IServiceCollection services)
-    {
-        services.AddScoped<IValidator<AddTaskCommand>, AddTaskCommandValidator>();
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-
-        ValidatorOptions.Global.LanguageManager.Enabled = false;
-
-        return services;
-    }
-
     public static IServiceCollection AddMassTransitConfiguration(this IServiceCollection services,
         IConfiguration configuration)
     {
@@ -67,9 +52,9 @@ public static class ServiceCollectionExtensions
 
                 cfg.UseMessageRetry(retryConfig =>
                 {
-                    retryConfig.Exponential(3, 
-                        TimeSpan.FromSeconds(1), 
-                        TimeSpan.FromSeconds(30), 
+                    retryConfig.Exponential(3,
+                        TimeSpan.FromSeconds(1),
+                        TimeSpan.FromSeconds(30),
                         TimeSpan.FromSeconds(5));
                 });
             });
