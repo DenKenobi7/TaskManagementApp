@@ -9,7 +9,7 @@ namespace TaskManagementApp.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class TasksController(IMediator mediator, ILogger<TasksController> logger) : ControllerBase
+public class TasksController(IMediator mediator) : ControllerBase
 {
     [HttpPost]
     public async Task<IActionResult> AddTask([FromBody] AddTaskCommand newTask, CancellationToken cancellationToken)
