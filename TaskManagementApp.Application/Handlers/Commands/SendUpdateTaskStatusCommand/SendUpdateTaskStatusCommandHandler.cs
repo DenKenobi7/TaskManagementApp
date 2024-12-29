@@ -6,7 +6,7 @@ using TaskManagementApp.Application.Interfaces;
 
 namespace TaskManagementApp.Application.Handlers.Commands.SendUpdateTaskStatusCommand;
 
-public class SendUpdateTaskStatusCommandHandler(ITaskRepository repository, IServiceBusSender sender) : IRequestHandler<SendUpdateTaskStatusCommand>
+public class SendUpdateTaskStatusCommandHandler(ITaskRepository repository, IUnitOfWork unitOfWork, IServiceBusSender sender) : IRequestHandler<SendUpdateTaskStatusCommand>
 {
     public async Task Handle(SendUpdateTaskStatusCommand request, CancellationToken cancellationToken)
     {
@@ -16,5 +16,7 @@ public class SendUpdateTaskStatusCommandHandler(ITaskRepository repository, ISer
 
         await sender.SendAsync(new UpdateTestStatusAction(request.Id, request.NewStatus),
             ServiceBusConstants.QueueNames.PushTaskStatusUpdateQueue, cancellationToken);
+
+        await unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

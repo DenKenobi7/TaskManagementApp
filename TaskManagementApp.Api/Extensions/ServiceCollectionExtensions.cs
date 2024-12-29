@@ -1,7 +1,9 @@
 ﻿using MassTransit;
+using MassTransit.Configuration;
 using TaskManagementApp.Api.Consumers;
 using TaskManagementApp.Application.Constants;
 using TaskManagementApp.Application.Interfaces;
+using TaskManagementApp.Infrastructure.Persistence;
 using TaskManagementApp.ServiceBus;
 using TaskManagementApp.ServiceBus.Options;
 
@@ -18,6 +20,13 @@ public static class ServiceCollectionExtensions
 
         services.AddMassTransit(x =>
         {
+            x.AddEntityFrameworkOutbox<AppDbContext>(o =>
+            {
+                o.UseSqlServer();
+
+                o.UseBusOutbox();
+            });
+
             x.AddConsumer<UpdateTaskStatusActionConsumer>()
                 .Endpoint(e =>
                 {
@@ -29,6 +38,11 @@ public static class ServiceCollectionExtensions
                 {
                     e.Name = ServiceBusConstants.QueueNames.TaskActionCompletedEventQueue;
                 });
+
+            x.AddConfigureEndpointsCallback((context, name, cfg) =>
+            {
+                cfg.UseEntityFrameworkOutbox<AppDbContext>(context);
+            });
 
             x.UsingRabbitMq((context, cfg) =>
             {
