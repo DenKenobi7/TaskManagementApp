@@ -1,4 +1,6 @@
-﻿namespace TaskManagementApp.Application.Events;
+﻿using TaskStatus = TaskManagementApp.Domain.TaskStatus;
+
+namespace TaskManagementApp.Application.Events;
 
 public class TaskStatusUpdatedEvent(int id, TaskStatus oldStatus, TaskStatus newStatus, DateTime timestamp)
 {

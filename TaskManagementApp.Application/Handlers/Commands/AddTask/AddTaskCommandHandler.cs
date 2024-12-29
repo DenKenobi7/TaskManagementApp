@@ -1,13 +1,18 @@
-﻿using FluentValidation;
-using MediatR;
+﻿using MediatR;
+using TaskManagementApp.Application.Interfaces;
+using TaskManagementApp.Domain;
 
 namespace TaskManagementApp.Application.Handlers.Commands.AddTask
 {
-    public class AddTaskCommandHandler() : IRequestHandler<AddTaskCommand, int>
+    public class AddTaskCommandHandler(ITaskRepository repository,
+        IUnitOfWork unitOfWork) : IRequestHandler<AddTaskCommand, int>
     {
-        public Task<int> Handle(AddTaskCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(AddTaskCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var task = new TaskEntity(request.Name, request.Description, request.AssignedTo);
+            await repository.AddAsync(task, cancellationToken);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+            return task.ID;
         }
     }
 }

@@ -17,8 +17,6 @@ public static class DependencyInjection
 
         services.Configure<RabbitMqOptions>(configuration.GetSection(RabbitMqOptions.SectionName));
 
-
-        //services.AddScoped<IDateTimeProvider, DateTimeProvider>();
         return services;
     }
 }

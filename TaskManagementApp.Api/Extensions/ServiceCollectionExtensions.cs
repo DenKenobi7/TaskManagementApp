@@ -40,13 +40,11 @@ public static class ServiceCollectionExtensions
 
                 cfg.ReceiveEndpoint(ServiceBusConstants.QueueNames.PushTaskStatusUpdateQueue, e =>
                 {
-                    //e.UseRawJsonSerializer(RawSerializerOptions.All);
                     e.ConfigureConsumer<UpdateTaskStatusActionConsumer>(context);
                 });
 
                 cfg.ReceiveEndpoint(ServiceBusConstants.QueueNames.TaskActionCompletedEventQueue, e =>
                 {
-                    //e.UseRawJsonSerializer(RawSerializerOptions.All);
                     e.ConfigureConsumer<TaskActionCompletedEventConsumer>(context);
                 });
 

@@ -1,23 +1,12 @@
 ﻿namespace TaskManagementApp.Domain;
 
-public class TaskEntity
+public class TaskEntity(string name, string description, string? assignedTo = null)
 {
     public int ID { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
+    public string Name { get; set; } = name;
+    public string Description { get; set; } = description;
     public TaskStatus Status { get; set; } = TaskStatus.NotStarted;
-    public string? AssignedTo { get; set; }
-
-    public TaskEntity() { }
-
-    public TaskEntity(int id, string name, string description, string? assignedTo = null)
-    {
-        ID = id;
-        Name = name;
-        Description = description;
-        AssignedTo = assignedTo;    
-        Status = TaskStatus.NotStarted;
-    }
+    public string? AssignedTo { get; set; } = assignedTo;
 
     public bool TryUpdateStatus(TaskStatus newStatus)
     {

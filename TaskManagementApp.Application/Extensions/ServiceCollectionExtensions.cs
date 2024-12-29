@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using TaskManagementApp.Application.Handlers.Commands.AddTask;
+using TaskManagementApp.Application.Providers;
 using TaskManagementApp.Application.Validation;
 
 namespace TaskManagementApp.Application.Extensions;
@@ -24,6 +25,8 @@ public static class ServiceCollectionExtensions
                 cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
             })
             .AddAutoMapper(typeof(ServiceCollectionExtensions).Assembly);
+
+        services.AddScoped<IDateTimeProvider, DateTimeProvider>();
 
         return services;
     }

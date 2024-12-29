@@ -16,6 +16,11 @@ namespace TaskManagementApp.Infrastructure.Persistence
             return await context.Tasks.ToListAsync(cancellationToken);
         }
 
+        public async Task<TaskEntity?> GetByIdAsync(int id, CancellationToken cancellationToken)
+        {
+            return await context.Tasks.FindAsync(id, cancellationToken);
+        }
+
         public Task UpdateAsync(TaskEntity task, CancellationToken cancellationToken)
         {
             context.Tasks.Update(task);
