@@ -7,8 +7,8 @@ using TaskManagementApp.Application.Providers;
 
 namespace TaskManagementApp.Application.Handlers.Commands.UpdateTaskStatus;
 
-public class UpdateTaskStatusCommandHandler(ITaskRepository repository, 
-    IUnitOfWork unitOfWork, 
+public class UpdateTaskStatusCommandHandler(ITaskRepository repository,
+    IUnitOfWork unitOfWork,
     IServiceBusSender sender,
     IDateTimeProvider dateTimeProvider) : IRequestHandler<UpdateTaskStatusCommand>
 {
@@ -21,24 +21,14 @@ public class UpdateTaskStatusCommandHandler(ITaskRepository repository,
         var oldStatus = task.Status;
         if (task.TryUpdateStatus(request.NewStatus))
         {
-            await unitOfWork.BeginTransactionAsync(cancellationToken);
+            await repository.UpdateAsync(task, cancellationToken);
 
-            try
-            {
-                await repository.UpdateAsync(task, cancellationToken);
+            await sender.SendAsync(new TaskStatusUpdatedEvent(task.ID, oldStatus, task.Status,
+                dateTimeProvider.GetTodayDateTimeUtc()), ServiceBusConstants.QueueNames.TaskActionCompletedEventQueue, cancellationToken);
 
-                await sender.SendAsync(new TaskStatusUpdatedEvent(task.ID, oldStatus, task.Status,
-                    dateTimeProvider.GetTodayDateTimeUtc()), ServiceBusConstants.QueueNames.TaskActionCompletedEventQueue, cancellationToken);
-                
-                await unitOfWork.SaveChangesAsync(cancellationToken);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
-                await unitOfWork.CommitTransactionAsync(cancellationToken);
-            }
-            catch
-            {
-                await unitOfWork.RollbackTransactionAsync(cancellationToken);
-                throw;
-            }
+            return;
         }
 
         throw new InvalidOperationException($"Status of Task with ID {task.ID} is already {request.NewStatus}");
