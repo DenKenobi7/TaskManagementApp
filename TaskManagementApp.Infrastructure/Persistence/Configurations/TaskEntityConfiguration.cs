@@ -12,6 +12,7 @@ public class TaskEntityConfiguration : IEntityTypeConfiguration<TaskEntity>
             .IsRequired()
             .HasMaxLength(100);
         builder.Property(t => t.Description)
+            .IsRequired()
             .HasMaxLength(100);
         builder.Property(t => t.Status)
             .IsRequired();

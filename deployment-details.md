@@ -10,6 +10,7 @@ docker run -d --name rabbitMQ -p 15672:15672 -p 5672:5672 rabbitmq:3.11-manageme
 
 
 
+
 # MS SQL Server:
 
 ## Pull MS SQL Server container:
@@ -25,6 +26,9 @@ ql/server:2019-latest
 
 In Nuget Package Manager Console run command: 
 update-database
+
+
+
 
 # Launch project
 
