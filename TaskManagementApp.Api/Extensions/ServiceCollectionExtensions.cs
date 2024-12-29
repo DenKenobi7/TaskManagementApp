@@ -2,6 +2,7 @@
 using MassTransit.Configuration;
 using TaskManagementApp.Api.Consumers;
 using TaskManagementApp.Application.Constants;
+using TaskManagementApp.Application.Exceptions;
 using TaskManagementApp.Application.Interfaces;
 using TaskManagementApp.Infrastructure.Persistence;
 using TaskManagementApp.ServiceBus;
@@ -54,20 +55,26 @@ public static class ServiceCollectionExtensions
 
                 cfg.ReceiveEndpoint(ServiceBusConstants.QueueNames.PushTaskStatusUpdateQueue, e =>
                 {
-                    e.ConfigureConsumer<UpdateTaskStatusActionConsumer>(context);
+                    e.ConfigureConsumer<UpdateTaskStatusActionConsumer>(context, c => c.UseMessageRetry(r =>
+                    {
+                        r.Exponential(3, 
+                            TimeSpan.FromSeconds(1), 
+                            TimeSpan.FromSeconds(30), 
+                            TimeSpan.FromSeconds(5));
+                        r.Ignore<NotFoundException>();
+                        r.Ignore<InvalidOperationException>();
+                    }));
                 });
 
                 cfg.ReceiveEndpoint(ServiceBusConstants.QueueNames.TaskActionCompletedEventQueue, e =>
                 {
-                    e.ConfigureConsumer<TaskActionCompletedEventConsumer>(context);
-                });
-
-                cfg.UseMessageRetry(retryConfig =>
-                {
-                    retryConfig.Exponential(3,
-                        TimeSpan.FromSeconds(1),
-                        TimeSpan.FromSeconds(30),
-                        TimeSpan.FromSeconds(5));
+                    e.ConfigureConsumer<TaskActionCompletedEventConsumer>(context, c => c.UseMessageRetry(r =>
+                    {
+                        r.Exponential(3,
+                            TimeSpan.FromSeconds(1),
+                            TimeSpan.FromSeconds(30),
+                            TimeSpan.FromSeconds(5));
+                    }));
                 });
             });
         });

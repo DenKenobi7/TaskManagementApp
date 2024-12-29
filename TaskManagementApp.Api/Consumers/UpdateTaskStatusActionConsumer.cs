@@ -18,6 +18,7 @@ public class UpdateTaskStatusActionConsumer(IMediator mediator,
         {
             logger.LogError(ex, "UpdateTaskStatusActionConsumer: Unable to update task status. TaskId: {0}.",
                 context.Message.Id);
+            throw;
         }
     }
 }
