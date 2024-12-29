@@ -25,3 +25,7 @@ ql/server:2019-latest
 
 In Nuget Package Manager Console run command: 
 update-database
+
+# Launch project
+
+Select "Docker" launch configuration
